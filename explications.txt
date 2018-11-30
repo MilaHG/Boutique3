@@ -912,7 +912,7 @@ ETAPE  9 : Les formulaires
 ----------------------------------
 
 Sommaire :
-1/ Le fonctionnement des formulaire
+1/ Le fonctionnement des formulaires
 2/ Création d'une formulaire simple pour l'inscription
 3/ Les classes types
 4/ Récupérer les données du formulaire
@@ -922,19 +922,20 @@ Sommaire :
 8/ Champs File (pour la photo d'un produit par exemple)
 -------------------------------
 
-1/ Le fonctionnement des formulaire
+1/ Le fonctionnement des formulaires
 
-Avec Symfony, nos formulaires sont liés  à une entité
-	-> inscription -> Entity/Membre
-	-> ajout de produit -> Entity/Produit
-	-> lmodification de produit -> Entity/Produit
+ - Avec Symfony, nos formulaires sont liés  à une entité
+	-> inscription              -> Entity/Membre
+	-> ajout de produit         -> Entity/Produit
+	-> modification de produit  -> Entity/Produit
 
 	Par exemple lorsque l'on modifie un produit en BDD via un formulaire... En réalité le formulaire modifie un objet produit, on dit que l'on hydrate le formulaire.
 
-	Chaque type de champs (text, checkbox, select, submit...) correspond à une classe (textType, checkboxType, ChoiceType, SubmitType...).
+ - Chaque type de champs (text, checkbox, select, submit...) correspond à une classe (textType, checkboxType, ChoiceType, SubmitType...).
 
 
-2/ Création d'une formulaire simple pour l'inscription
+2/ Création d'un formulaire simple pour l'inscription
+
 	-> Créer une route "/inscription" dans le MembreController
 
 	FormBuilder est un constructeur de formulaire. Il nous permet de paramètrer un formulaire.
@@ -955,11 +956,11 @@ Avec Symfony, nos formulaires sont liés  à une entité
 	On oublie pas de générer le formulaire :
 	$form = $formBuilder->getForm();
 
-	Enfin on récupère la view :
+	Enfin on récupère la view que l'on passe dans les paramètres :
 	'membreForm' = $Form->createView();
 
-	Dans le Twig le formulaire est afficher de plusieur manière possible (voir inscription.html.twig)
-	{{form'membreForm}}
+	Dans le Twig le formulaire est afficher de plusieurs manières possibles (voir inscription.html.twig)
+	{{form(membreForm)}}
 
 3/ Les classes types
 
@@ -969,54 +970,60 @@ lien :
 
 4/ Récupérer les données du formulaire
 
-	a/ On récupère la requete POST du formulaire et on lie les champs à notre objet(hydrate l'objet)
+	a/ On récupère la requête POST du formulaire et on lie les champs à notre objet (hydrate l'objet).
+	<code>
 		$form-> handleRequest($request);
 
-		B/ On check que le formulaire soit bien activé (nom vide) et les données valides
-			if($form->isSubmitted() && $form->valid()){}
+	B/ On check que le formulaire soit bien activé (nom vide) et les données valides
+		if($form->isSubmitted() && $form->valid()){}
 
-			/!\ nous verrons plus bas les options de validités
+		/!\ nous verrons plus bas les options de validité
 
-		C/ On enregistreles données saisies
-		<code>
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($membre);
-			$em->flush();
-
-- Méthode 1 :
-    fichier app/config/config.yml
-    <code>
-    twig
-        form-themes:
-            - 'bootstrap_4_layout.html.twig'
-
-
-
--Méthode 2 :
-	On prend la main sur la création du formulaire avec notre propre structure et mise en forme voire le fichier form.html.twig
+	C/ On enregistre les données saisies
 	<code>
-	form_star() etc...
+		$em = $this->getDoctrine()->getManager();
+		$em->persist($membre);
+		$em->flush();
+
+5/ Personnaliser le formulaire avec Bootstrap
+
+    - Méthode 1 :
+        fichier app/config/config.yml
+        <code>
+        twig
+            form-themes:
+                - 'bootstrap_4_layout.html.twig'
+
+
+
+    -Méthode 2 :
+        On prend la main sur la création du formulaire avec notre propre structure et mise en forme voire le fichier form.html.twig
+        <code>
+        form_star() etc...
 
 6/ Créer nos propres class type hérité de AbstractType
-	->Contexte : Actuellement pour ajouter un formulaire a une route, on récupère le formBuilder et on configure tous les champs...
+
+	- Contexte : Actuellement pour ajouter un formulaire a une route, on récupère le formBuilder et on configure tous les champs...
 		-> probleme : les routes inscription, update_profil, admin_add_membre et admin_update_membre auront toutes besoin d'un même formulaire...
 
-		-> solution : On va créer une classe MembreType dont le boulot sera de paramètrer(créer) un formulaire Membre.
+		-> solution : On va créer une classe MembreType dont le boulot sera de paramètrer (créer) un formulaire Membre.
 
-		-> Résultat : Il suffira de faire appel à cette classe pour générer un formulaireMembre.
+		-> Résultat : Il suffira de faire appel à cette classe pour générer un formulaire Membre.
 
-		==> GAIN DE TEMPS et meilleur FACTORISATION du code
+		==> GAIN DE TEMPS et meilleure FACTORISATION du code
 
-		Comme souvent Symfony nous permet d'optimiser certaine chose via les ligne de commande.
+		Comme souvent Symfony nous permet d'optimiser certaines choses via les lignes de commande.
 		<code>
 		php bin/console generate:doctrine:form BoutiqueBundle:Membre
 		php bin/console generate:doctrine:form BoutiqueBundle:Produit
 		php bin/console generate:doctrine:form BoutiqueBundle:Commande
 
+===============FIN ALPHA 26 nov 2018========================================
+
 7/ Update un enregistrement très simplement
+
 8/ Champs File (pour la photo d'un produit par exemple)
 
-===============FIN ALPHA 26 nov 2018========================================
 
 
 -----------------------------------------------------
