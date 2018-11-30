@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+    {% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1 class="mt-4">{{ title }}</h1>
+
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-12">
+            <p style="text-align: right;"><strong>Nombre de membres du site : {{ membres | length }} </strong></p>
+            {# {{ produits | length }} => <?php count($tab); sizeof($tab) ?> #}
+        </div>
+
+        <table class="table table-striped table-hover table-dark">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Pseudo</th>
+                <th>MDP</th>
+                <th>Nom</th>
+                {#<th>Prénom</th>#}
+                <th>Email</th>
+                {#<th>Civilité</th>#}
+                <th>Ville</th>
+                <th>Code postal</th>
+                {#<th>Adresse</th>#}
+                <th>Statut</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for mber in membres %}
+                <tr>
+                    <td>{{ mber.idMembre }}</td>
+                    <td>{{ mber.pseudo }}</td>
+                    <td>{{ mber.mdp }}</td>
+
+                    {% if mber.civilite == 'm' %}
+                    <td>M.
+                    {% else %}
+                    <td>Mme
+                    {% endif %}
+                     {{ mber.prenom }} {{ mber.nom }}</td>
+
+                    {#<td>{{ mber.nom }}</td>#}
+                    {#<td>{{ mber.prenom }}</td>#}
+                    <td>{{ mber.email }}</td>
+
+                    {#{% if mber.civilite == 'm' %}#}
+                        {#<td>Homme</td>#}
+                    {#{% else %}#}
+                        {#<td>Femme</td>#}
+                    {#{% endif %}#}
+
+                    <td>{{ mber.ville }}</td>
+                    <td>{{ mber.codePostal | number_format(0, ',', ' ') }}</td>
+                    {#<td>{{ mber.adresse }}</td>#}
+
+                    {% if mber.statut == 1 %}
+                        <td class="text-info">ADMIN</td>
+                    {% else %}
+                        <td>Client</td>
+                    {% endif %}
+
+                    {#(td>a[target="_blank" href]>i.fas)*3#}
+
+                    <td><a href="{# {{ path('update_membre', {'id' : mber.idMembre}) }} #}" target="_blank"><i class="text-warning fas fa-edit"></i></a></td>
+                    <td><a href="{{ path('delete_membre', {'id' : mber.idMembre}) }}" target="_blank"><i class="text-danger fas
+                    fa-trash-alt"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

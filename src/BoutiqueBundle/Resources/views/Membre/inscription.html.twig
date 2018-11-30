@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{# {% block title %}Inscription Membre{% endblock %} #}
+
+{% block content %}
+
+	<h1> Formulaire d'inscription</h1>
+	 <div class="col-6 m-auto mt-5">
+		{# Méthode très simple qui génère le formulaire entièrement #}
+		{{form(membreForm)}}
+	 </div>
+
+{% endblock %}

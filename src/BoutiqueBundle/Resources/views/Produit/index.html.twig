@@ -1,0 +1,56 @@
+{% extends 'layout.html.twig' %}
+
+    {% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+        <h1 class="mt-4">{{ title }}</h1>
+        <div class="row">
+
+            {% for message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <a href="{{ path('home') }}" class="list-group-item">Tous</a>
+
+                {% for cat in categories %}
+                    <a href="{{ path('categorie', {'cat' : cat.categorie}) }}" class="list-group-item">{{ cat.categorie | capitalize }}</a>
+                    {#<a href="categorie/>?cat=<?= cat['categorie'] ?>">echo '<a href="categorie?= . cat['categorie'] ."  #}
+                {% endfor %}
+
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    {% for produit in produits %}
+                    {# <?php foreach($produits as $produit) : ?> équivalent en PHP natif #}
+                        <div class="col-sm-4 mb-4">
+                            <div class="card">
+
+                                <a href="{{ path('produit', {'id' : produit.idProduit}) }}">
+                                    <img src="{{ asset('/photo/' ~ produit.photo) }}" alt="{{ produit.titre }}" class="card-img-top">
+                                </a>
+
+                                <div class="card-body">
+                                    {# <li>Id_produit : <?= $produit['id_produit'] ?></li> équivalent en procédural #}
+                                    {# <li>Id_produit : <?= $produit->getId_produit() ?></li> équivalent en objet #}
+
+                                    <h4>{{ produit.titre }}</h4>
+                                    <h5>{{ produit.prix | number_format(2, ',', ' ')}} €</h5>
+                                    <p>{{ produit.description }}</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div><!-- .row -->
+
+
+{%  endblock %}
+
+

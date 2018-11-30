@@ -1,0 +1,99 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+    {% block content %}
+    <div class="row">
+
+        <div class="col-12">
+            <h1>{{ title }}</h1>
+        </div>
+
+        <div class="col-md-8">
+            <img class="img-fluid" src="{{ asset('/photo/' ~ produit.photo) }}" alt="{{ produit.titre }}">
+        </div>
+
+        <div class="col-md-4">
+            <h3>Description</h3>
+            <p>{{ produit.description | capitalize }}</p>
+
+            <h3>Détails</h3>
+            <ul>
+                {#{% for produit in produits %}#}
+                <li>Catégorie : {{ produit.categorie }}</li>
+                <li>Couleur : {{ produit.couleur }}</li>
+                <li>Taille : {{ produit.taille }}</li>
+            </ul>
+            <h4>Prix : {{ produit.prix|number_format(2, ',', ' ') }} €</h4>
+            {# 12000.54 => 12 000,54 #}
+
+            {% if produit.stock > 0 %}
+
+                <form method="post" action="panier.php">
+
+                    <input type="hidden" name="id_produit" value="">
+                    <select name="quantite" class="custom-select col-sm-2">
+                        {#{% if produit.stock >= 5 %}#}
+                            {#{% for i in 1..5 %}#}
+                                {#<option>{{ i }}</option>#}
+                            {#{% endfor %}#}
+                        {#{% else %}#}
+                            {#{% for i in 1..produit.stock %}#}
+                            {#<option>{{ i }}</option>#}
+                            {#{% endfor %}#}
+                        {#{% endif %}#}
+
+                        {# ces 2 blocs font la même chose, écrits différemment #}
+
+                        {% for i in 1..5 if i <= produit.stock %}
+                            <option>{{ i }}</option>
+                        {% endfor %}
+
+                    </select>
+
+                    <input type="submit" name="ajout_panier" value="Ajouter au panier" class="btn alert-warning col-sm-8 ml-2">
+
+                </form>
+                <p>Nombre de produit(s) disponible(s) : {{ produit.stock }}</p>
+
+            {% else %}
+                <p>Produit en rupture de stock !</p>
+
+            {% endif %}
+
+            <p>
+                <a href="{{ path('categorie', {'cat' : produit.categorie}) }}">Retour vers la catégorie "{{ produit.categorie|capitalize }}"</a>
+            </p>
+
+
+        </div>
+    </div><!-- .row -->
+
+        {# Vignettes produits - Suggestions #}
+
+        {%  if suggestions is defined %}
+        {# is defined / is not null => isset #}
+            <hr>
+            <div class="row">
+            <div class="col-12">
+                <h3>Suggestions de produits</h3>
+            </div>
+            <div class="card-deck mt-2 ml-1">
+                {% for sug in suggestions %}
+                <div class="card text-center">
+                    <a href="{{ path('produit', {'id' : sug.idProduit}) }}">
+                        <img src="{{ asset('/photo/' ~ sug.photo) }}" alt="" class="card-img-top img-fluid" style="width: 200px;">
+                    </a>
+                    <div class="card-footer alert-warning">{{ sug.titre }} - {{ sug.prix }}€</div>
+                </div>  {# end div.card.text-center #}
+                {% endfor %}
+            </div> {# end div.card-deck #}
+
+
+        {% endif %}
+
+    </div><!-- .row -->
+
+
+
+    {% endblock %}
