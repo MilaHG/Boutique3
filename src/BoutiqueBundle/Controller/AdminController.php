@@ -77,7 +77,7 @@ class AdminController extends Controller
     }
 #--------------------------------------------#
     // affiche toutes les commandes dans un tableau
-    /**
+    /**Nom
      * @Route("/admin/commande/show", name="show_commande")
      */
     public function showCommandeAction()

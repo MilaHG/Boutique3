@@ -50,5 +50,6 @@ class DetailsCommande
     private $prix;
 
 
+
 }
 

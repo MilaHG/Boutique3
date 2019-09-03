@@ -78,7 +78,7 @@ Sommaire :
     symfony new project nom-du-projet
 
     Ou
-    avec Composer
+    avec Composer   ⚜️⚜️⚜️
     <cmd>
     composer create-project symfony/framework-standard-edition projet-test
     framework-standard-edition inclus tous les services
@@ -116,7 +116,7 @@ Sommaire :
     php bin/console server:run
     puis dans le navigateur : localhost:8000
     (si j'ai plusieurs projets Symfony le second sera sur le port 8001, on peut même les définir)
-    nous permet de ne pas avoir à con figurer des virtual hosts pour nosprojets
+    nous permet de ne pas avoir à con figurer des virtual hosts pour nos projets
 
     Les fichiers excéutés sont web/app.php (mode prod)
     web/app_dev.php (mode dev)
@@ -245,7 +245,7 @@ Sommaire :
 
 2- L'objet Request
 
-L'objet request stocke les informations de la requêt HTTP
+L'objet request stocke les informations de la requête HTTP
 
 <code>
 use Symfony\Component\HttpFoundation\Request;
@@ -373,7 +373,7 @@ TEST : localhost:8000
 ----------------------------------
 4- réorganiser le bundle (controller et vues)
 
-    -> rennomer le fichier DefaultController.php en ProduitController.php
+    -> renommer le fichier DefaultController.php en ProduitController.php
     -> dans les vues on a ajouté :
         Produit/, Commande/, Membre
 
@@ -509,7 +509,7 @@ Le composant Asset de Symfony nous permet de gérer les ressources (images, phot
         -> href="index.php"
            href="{{ path('home') }}"
 
-           La fonction path de twig permet d'afficher le chemin absolu d'une route. On utilise le nom (name="" dans l'annonation) de la route dans la fonction
+           La fonction path de twig permet d'afficher le chemin absolu d'une route. On utilise le nom (name="" dans l'annotation) de la route dans la fonction
 
     - vues
         -> src="../../../web/photo/<?php $produit['photo'] ?>""
@@ -653,7 +653,7 @@ ex : The Entity shortcut name:
                    If you wish to generate your entities, use make:entity --regenerate from
             MakerBundle instead.
 
-    4- Je vais lier mes entités à un reporsitory
+    4- Je vais lier mes entités à un repository
     @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\ProduitRepository)
     @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\MembreRepository)
     @ORM\Entity(repositoryClass="BoutiqueBundle\Repository\CommandeRepository)
